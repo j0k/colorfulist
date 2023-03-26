@@ -49,13 +49,20 @@ class Colorfulist(list):
         @param iterable - original list
         @param print_type - 'console' or 'HTML'
         @param default_color - 'white'
-        @param autocoloring - True. If True you can use natural colors name like
-         'red', 'green', 'blue', 'cyan' and etc (see color_table) instead of colorama.
-         Fore.RED.
+        @param autocoloring - True. If True you can use natural color names like
+         'red', 'green', 'blue', 'cyan' and etc (see color_table) instead of
+          colorama.Fore.RED.
         """
         super().__init__(iterable)
+        #print(isinstance(iterable, type(self)), type(iterable), type(super()), type(self))
+
         self.default_color = default_color
-        self.colors = Colors([self.default_color for item in iterable])
+        if isinstance(iterable, type(self)):
+            self.colors = Colors(iterable.colors[:])
+        else:
+            self.colors = Colors([self.default_color for item in iterable])
+
+        self.default_color = default_color
         self.print_type = print_type
         self.autocoloring = autocoloring
         self.set_print_type(print_type, default_color)
@@ -105,3 +112,7 @@ class Colorfulist(list):
         result_str += "]"
 
         return result_str
+
+    def reverse(self):
+        super().reverse()
+        self.colors.reverse()
