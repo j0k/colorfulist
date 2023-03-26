@@ -42,6 +42,16 @@ class Colorfulist(list):
     def __init__(self, iterable, print_type='console', default_color = 'white',
                         autocoloring = True):
         """
+        @brief Create list from @iterable with field .colors
+
+        example: Colorfulist([1,2,3])
+
+        @param iterable - original list
+        @param print_type - 'console' or 'HTML'
+        @param default_color - 'white'
+        @param autocoloring - True. If True you can use natural colors name like
+         'red', 'green', 'blue', 'cyan' and etc (see color_table) instead of colorama.
+         Fore.RED.
         """
         super().__init__(iterable)
         self.default_color = default_color
@@ -55,29 +65,34 @@ class Colorfulist(list):
             if self.autocoloring:
                 def colorize(elem, color):
                     return color2code(color) + str(elem)
-                self.colorize = colorize
+                self._colorize = colorize
             else:
                 def colorize(elem, color):
                     return color + str(elem)
-                self.colorize = colorize
+                self._colorize = colorize
 
 
         elif print_type == 'HTML':
             def colorize(elem, color=self.default_color):
                 return "<text style=color:{}>{}</text>".format(color, elem)
-            self.colorize = colorize
+            self._colorize = colorize
 
     def coloring(self, function, color):
         for i, elem in enumerate(self):
             if function(elem):
                 self.colors[i] = color
 
+    def reset_colors(self):
+        for i, elem in enumerate(self.colors):
+            self.colors[i] = self.default_color
+
+
     def insert(self, index, item):
         super().insert(index, item)
         self.colors.insert(index, self.default_color)
 
     def append(self, item):
-        super().append(str(item))
+        super().append(item)
         self.colors.append(self.default_color)
 
     def extend(self, other):
@@ -86,7 +101,7 @@ class Colorfulist(list):
 
     def __str__(self):
         result_str = "["
-        result_str += ", ".join([self.colorize(str(item), color) for item, color in zip(self, self.colors)])
+        result_str += ", ".join([self._colorize(str(item), color) for item, color in zip(self, self.colors)])
         result_str += "]"
 
         return result_str
