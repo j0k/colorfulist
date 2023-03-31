@@ -27,7 +27,31 @@ L.reset_colors()
 ```
 ![Example](media/example.png)
 
-![Basic uages](media/basics.gif)
+![Basic usages](media/basics.gif)
+
+## IPython example
+
+```python
+import colorfulist as CL
+from IPython.display import HTML
+CA = CL.Colorfulist([4,-3,30,-29,-2], print_type='HTML', default_color='black')
+CA.colors[3:] = 'red'
+HTML(str(CA))
+```
+
+![Example](media/ipython.png)
+
+## IPython example with max-sum sublist
+
+TODO: THIS SECTION
+<details>
+<summary>Code of get_maxsum_sublist() function</summary>
+
+  ```python
+  def get_maxsum_sublist(lst): ...
+  ```
+</details>
+
 
 # How it works
 
@@ -49,6 +73,7 @@ color_table = {
     'white'  : Fore.WHITE
 }
 ```
+
 
 # Futhermore
 

@@ -109,7 +109,7 @@ class Colorfulist(list):
     def __str__(self):
         result_str = "["
         result_str += ", ".join([self._colorize(str(item), color) for item, color in zip(self, self.colors)])
-        result_str += "]"
+        result_str += self._colorize("", self.default_color) + "]"
 
         return result_str
 
